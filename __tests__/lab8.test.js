@@ -23,7 +23,7 @@ describe('Basic user flow for Website', () => {
     let data, plainValue;
     // Query select all of the <product-item> elements
     const prodItems = await page.$$('product-item');
-    for (i = 0; i < prodItems.length; i++) {
+    for (let i = 0; i < prodItems.length; i++) {
       console.log(`Checking product item ${i + 1}/${prodItems.length}`);
       // Grab the .data property of <product-items> to grab all of the json data stored inside
       data = await prodItems[i].getProperty('data');
@@ -64,10 +64,21 @@ describe('Basic user flow for Website', () => {
   // number in the top right has been correctly updated
   it('Checking number of items in cart on screen', async () => {
     console.log('Checking number of items in cart on screen...');
-    // TODO - Step 3
+    // Step 3
     // Query select all of the <product-item> elements, then for every single product element
-    // get the shadowRoot and query select the button inside, and click on it.
+    let shadowRoot, button;
+    let prodItems = await page.$$('product-item');
+    for (let i = 1; i < prodItems.length; i++){
+      // get the shadowRoot and query select the button inside, and click on it.
+      shadowRoot = await prodItems[i].getProperty('shadowRoot');
+      button = await shadowRoot.$('button');
+      await button.click();
+    }
     // Check to see if the innerText of #cart-count is 20
+    let cartCountElement = await page.$('#cart-count');
+    let cartCount = await cartCountElement.getProperty('innerText');
+    expect(await cartCount.jsonValue()).toEqual("20");
+
   }, 10000);
 
   // Check to make sure that after you reload the page it remembers all of the items in your cart
