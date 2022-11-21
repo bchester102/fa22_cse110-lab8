@@ -1,6 +1,6 @@
 # Lab 8 - Starter
 
-Bradley Chester
+Bradley Chester, Steven Liu
 
 ## Check your understanding
 
